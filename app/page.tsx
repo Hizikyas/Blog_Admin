@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import FilterDropdown from "@/components/FilterDropdown";
 import ReportDetailsModal from "@/components/ReportDetailsModal";
+import Image from 'next/image';
 
 interface Blog {
   id: number;
@@ -152,7 +153,7 @@ export default function AdminPanel() {
   const handleRemoveReports = async (blogId: number) => {
     try {
       console.log("Removing reports for blog with ID:", blogId);
-      const res = await fetch(`https://blog-platform-frrq.vercel.app/api/report?id=${blogId}`, {
+      const res = await fetch(`https://blog-platform-n1a2.vercel.app/api/deletereport?postid=${blogId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -285,11 +286,13 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row">
                     {blog.image && (
                       <div className="sm:w-1/4">
-                        <img
-                          src={blog.image}
-                          alt={blog.title}
-                          className="w-full h-24 sm:h-32 object-cover"
-                        />
+<Image 
+  src={blog.image} 
+  alt={blog.title} 
+  width={300}
+  height={200}
+  className="w-full h-24 sm:h-32 object-cover"
+/>
                       </div>
                     )}
                     <div className={`p-4 flex-1 ${!blog.image ? "w-full" : ""}`}>

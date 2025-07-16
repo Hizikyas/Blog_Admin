@@ -23,7 +23,6 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, blogId }) =>
   const [nickname, setNickname] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check sessionStorage for nickname
     const storedNickname = sessionStorage.getItem("nickname");
     setNickname(storedNickname);
     if (storedNickname) {
@@ -65,8 +64,8 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, blogId }) =>
       alert("Report submitted successfully!");
       setFormData({ type: "", reason: "", reporter: nickname || "" });
       onClose();
-    } catch (err) {
-      setError(err.message || "Failed to submit report");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to submit report");
       console.error("Error submitting report:", err);
     } finally {
       setIsLoading(false);
