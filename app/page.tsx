@@ -134,7 +134,7 @@ export default function AdminPanel() {
 
   const handleReportRemove = async (reportId: string) => {
   try {
-    const res = await fetch(`https://blog-api-gx6u.vercel.app//api/report?id=${reportId}`, {
+    const res = await fetch(`https://blog-platform-n1a2.vercel.app/api/deletereport?id=${reportId}`, {
       method: "DELETE",
     });
     

@@ -38,6 +38,7 @@ export default function ReportDetailsModal({
     setIsDeleting(reportId);
     try {
       await onReportRemove(reportId);
+      onClose();
     } catch (error) {
       console.error("Failed to remove report:", error);
     } finally {
