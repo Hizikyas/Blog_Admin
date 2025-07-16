@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import FilterDropdown from "@/components/FilterDropdown";
 import ReportDetailsModal from "@/components/ReportDetailsModal";
-import Image from 'next/image';
+
 
 interface Blog {
   id: number;
@@ -286,13 +286,11 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row">
                     {blog.image && (
                       <div className="sm:w-1/4">
-<Image 
-  src={blog.image} 
-  alt={blog.title} 
-  width={300}
-  height={200}
-  className="w-full h-24 sm:h-32 object-cover"
-/>
+                        <img
+                          src={blog.image}
+                          alt={blog.title}
+                          className="w-full h-24 sm:h-32 object-cover"
+                        />
                       </div>
                     )}
                     <div className={`p-4 flex-1 ${!blog.image ? "w-full" : ""}`}>
