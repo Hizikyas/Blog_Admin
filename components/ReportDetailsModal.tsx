@@ -1,5 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface Report {
   id: string;
@@ -15,13 +17,32 @@ interface ReportDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   reports: Report[] | null;
+  onReportRemove: (reportId: string) => Promise<void>; // Add this prop
 }
 
-export default function ReportDetailsModal({ isOpen, onClose, reports }: ReportDetailsModalProps) {
+export default function ReportDetailsModal({ 
+  isOpen, 
+  onClose, 
+  reports,
+  onReportRemove 
+}: ReportDetailsModalProps) {
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+
   if (!reports || reports.length === 0) return null;
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleString();
+  };
+
+  const handleRemoveReport = async (reportId: string) => {
+    setIsDeleting(reportId);
+    try {
+      await onReportRemove(reportId);
+    } catch (error) {
+      console.error("Failed to remove report:", error);
+    } finally {
+      setIsDeleting(null);
+    }
   };
 
   return (
@@ -36,8 +57,18 @@ export default function ReportDetailsModal({ isOpen, onClose, reports }: ReportD
           {reports.map((report, index) => (
             <div
               key={report.id}
-              className="border border-gray-200 dark:border-gray-700 p-4 rounded-md"
+              className="border border-gray-200 dark:border-gray-700 p-4 rounded-md relative"
             >
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute top-2 right-2 p-1 h-6 w-6"
+                onClick={() => handleRemoveReport(report.id)}
+                disabled={isDeleting === report.id}
+              >
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </Button>
+              
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 Report {index + 1}
               </p>

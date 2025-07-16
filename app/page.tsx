@@ -132,6 +132,22 @@ export default function AdminPanel() {
     return `${diffInDays}d ago`;
   };
 
+  const handleReportRemove = async (reportId: string) => {
+  try {
+    const res = await fetch(`https://blog-api-gx6u.vercel.app//api/report?id=${reportId}`, {
+      method: "DELETE",
+    });
+    
+    if (!res.ok) throw new Error("Failed to remove report");
+    
+    // Refresh reports after successful deletion
+    fetchBlogs(); // Your function to refresh reports
+  } catch (error) {
+    console.error("Error removing report:", error);
+    // Optionally show error to user
+  }
+};
+
   const handleDeleteBlog = async (blogId: number) => {
     try {
       console.log("Deleting blog with ID:", blogId);
@@ -363,6 +379,7 @@ export default function AdminPanel() {
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         reports={selectedReports}
+        onReportRemove={handleReportRemove}
       />
     </div>
   );
